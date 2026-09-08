@@ -1,0 +1,310 @@
+#include <iostream>
+using namespace std;
+
+struct Node
+{
+    int info;
+    Node* link;
+};
+
+
+// INSERTION AT BEGINNING
+void insertBeginning(Node*& start, Node*& avail, int value)
+{
+    // Check for overflow
+    if (avail == NULL)
+    {
+        cout << "OVERFLOW" << endl;
+        return;
+    }
+
+    // Take a node from AVAIL
+    Node* newNode = avail;
+    avail = avail->link;
+
+    // Put value in the new node
+    newNode->info = value;
+
+    // Connect new node with START
+    newNode->link = start;
+    start = newNode;
+}
+
+
+// INSERTION AT PARTICULAR POSITION
+void insertPosition(Node*& start, Node*& avail, int value, int position)
+{
+    // Check for overflow
+    if (avail == NULL)
+    {
+        cout << "OVERFLOW" << endl;
+        return;
+    }
+
+    // Take a node from AVAIL
+    Node* newNode = avail;
+    avail = avail->link;
+
+    newNode->info = value;
+
+    // If position is 1
+    if (position == 1)
+    {
+        newNode->link = start;
+        start = newNode;
+        return;
+    }
+
+    Node* temp = start;
+
+    // Reach the node before the required position
+    for (int i = 1; i < position - 1; i++)
+    {
+        temp = temp->link;
+    }
+
+    // Insert the new node
+    newNode->link = temp->link;
+    temp->link = newNode;
+}
+
+
+// INSERTION AT END
+void insertEnd(Node*& start, Node*& avail, int value)
+{
+    // Check for overflow
+    if (avail == NULL)
+    {
+        cout << "OVERFLOW" << endl;
+        return;
+    }
+
+    // Take a node from AVAIL
+    Node* newNode = avail;
+    avail = avail->link;
+
+    newNode->info = value;
+    newNode->link = NULL;
+
+    // If list is empty
+    if (start == NULL)
+    {
+        start = newNode;
+        return;
+    }
+
+    Node* temp = start;
+
+    // Reach the last node
+    while (temp->link != NULL)
+    {
+        temp = temp->link;
+    }
+
+    // Connect last node to new node
+    temp->link = newNode;
+}
+
+
+// DELETION FROM BEGINNING
+void deleteBeginning(Node*& start, Node*& avail)
+{
+    // Check for underflow
+    if (start == NULL)
+    {
+        cout << "UNDERFLOW" << endl;
+        return;
+    }
+
+    // Take the first node out of the list
+    Node* temp = start;
+    start = start->link;
+
+    // Return the deleted node to AVAIL
+    temp->link = avail;
+    avail = temp;
+}
+
+
+// DELETION FROM PARTICULAR POSITION
+void deletePosition(Node*& start, Node*& avail, int position)
+{
+    // Check for underflow
+    if (start == NULL)
+    {
+        cout << "UNDERFLOW" << endl;
+        return;
+    }
+
+    // If deleting first node
+    if (position == 1)
+    {
+        Node* temp = start;
+        start = start->link;
+
+        // Return deleted node to AVAIL
+        temp->link = avail;
+        avail = temp;
+
+        return;
+    }
+
+    Node* temp = start;
+
+    // Reach the node before the node to be deleted
+    for (int i = 1; i < position - 1; i++)
+    {
+        temp = temp->link;
+    }
+
+    // Store the node to be deleted
+    Node* deletedNode = temp->link;
+
+    // Remove it from the list
+    temp->link = deletedNode->link;
+
+    // Return deleted node to AVAIL
+    deletedNode->link = avail;
+    avail = deletedNode;
+}
+
+
+// DELETION FROM END
+void deleteEnd(Node*& start, Node*& avail)
+{
+    // Check for underflow
+    if (start == NULL)
+    {
+        cout << "UNDERFLOW" << endl;
+        return;
+    }
+
+    // If there is only one node
+    if (start->link == NULL)
+    {
+        Node* temp = start;
+        start = NULL;
+
+        // Return deleted node to AVAIL
+        temp->link = avail;
+        avail = temp;
+
+        return;
+    }
+
+    Node* temp = start;
+
+    // Reach the second-last node
+    while (temp->link->link != NULL)
+    {
+        temp = temp->link;
+    }
+
+    // Store last node
+    Node* deletedNode = temp->link;
+
+    // Remove last node
+    temp->link = NULL;
+
+    // Return deleted node to AVAIL
+    deletedNode->link = avail;
+    avail = deletedNode;
+}
+
+
+// DISPLAY START LIST
+void display(Node* start)
+{
+    Node* temp = start;
+
+    while (temp != NULL)
+    {
+        cout << temp->info << " -> ";
+        temp = temp->link;
+    }
+
+    cout << "NULL" << endl;
+}
+
+
+// DISPLAY AVAIL LIST
+void displayAvail(Node* avail)
+{
+    Node* temp = avail;
+
+    cout << "AVAIL: ";
+
+    while (temp != NULL)
+    {
+        cout << "[FREE] -> ";
+        temp = temp->link;
+    }
+
+    cout << "NULL" << endl;
+}
+
+
+int main()
+{
+    Node* start = NULL;
+
+    // Creating some free nodes for AVAIL
+    Node* node1 = new Node;
+    Node* node2 = new Node;
+    Node* node3 = new Node;
+    Node* node4 = new Node;
+    Node* node5 = new Node;
+
+    // Making AVAIL linked list
+    node1->link = node2;
+    node2->link = node3;
+    node3->link = node4;
+    node4->link = node5;
+    node5->link = NULL;
+
+    Node* avail = node1;
+
+
+    // INSERTION
+    insertBeginning(start, avail, 20);
+    insertBeginning(start, avail, 10);
+
+    insertPosition(start, avail, 15, 2);
+
+    insertEnd(start, avail, 30);
+    insertEnd(start, avail, 40);
+
+    cout << "After insertion:" << endl;
+    cout << "START: ";
+    display(start);
+    displayAvail(avail);
+
+
+    // DELETION FROM BEGINNING
+    deleteBeginning(start, avail);
+
+    cout << "\nAfter deletion from beginning:" << endl;
+    cout << "START: ";
+    display(start);
+    displayAvail(avail);
+
+
+    // DELETION FROM PARTICULAR POSITION
+    deletePosition(start, avail, 2);
+
+    cout << "\nAfter deletion from position 2:" << endl;
+    cout << "START: ";
+    display(start);
+    displayAvail(avail);
+
+
+    // DELETION FROM END
+    deleteEnd(start, avail);
+
+    cout << "\nAfter deletion from end:" << endl;
+    cout << "START: ";
+    display(start);
+    displayAvail(avail);
+
+    return 0;
+}
