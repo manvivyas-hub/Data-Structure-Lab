@@ -6,6 +6,9 @@ struct Node
 };
 void insertBeginning(Node*& start, Node*& avail, int value)
 {    
+    if (avail==NULL){
+        cout<<"OVERFLOW";
+    }
     Node* newNode = avail;
     avail = avail->link;
     newNode->info = value;
@@ -13,7 +16,9 @@ void insertBeginning(Node*& start, Node*& avail, int value)
     start = newNode;
 }
 void insertPosition(Node*& start, Node*& avail, int value, int position)
-{
+{   if (avail==NULL){
+        cout<<"OVERFLOW";
+    }
     Node* newNode = avail;
     avail = avail->link;
     newNode->info = value;
@@ -30,7 +35,9 @@ void insertPosition(Node*& start, Node*& avail, int value, int position)
     temp->link = newNode;
 }
 void insertEnd(Node*& start, Node*& avail, int value)
-{
+{   if (avail==NULL){
+        cout<<"OVERFLOW";
+    }
     Node* newNode = avail;
     avail = avail->link;
     newNode->info = value;
@@ -116,16 +123,6 @@ void display(Node* start)
     }
     cout << "NULL" << endl;
 }
-void displayAvail(Node* avail)
-{   Node* temp = avail;
-    cout << "AVAIL: ";
-    while (temp != NULL)
-    {
-        cout << "[FREE] -> ";
-        temp = temp->link;
-    }
-    cout << "NULL" << endl;
-}
 int main()
 {
 Node*start=NULL;
@@ -147,8 +144,11 @@ int position;
 int x;
 int y;
 int z;
-cout<<"Enter the elements of the linked list:";
-for(int i=0;i<=5; i++){
+int size;
+cout<<"Enter the number of elements of the linked list:";
+cin>>size;
+cout<<"Enter the elements of the linked list:"<<endl;
+for(int i=0;i<size; i++){
     cin>>value;
     insertEnd(start,avail,value);
 }
