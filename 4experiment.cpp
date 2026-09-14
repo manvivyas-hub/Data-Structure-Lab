@@ -8,6 +8,7 @@ void insertBeginning(Node*& start, Node*& avail, int value)
 {    
     if (avail==NULL){
         cout<<"OVERFLOW";
+        return ;
     }
     Node* newNode = avail;
     avail = avail->link;
@@ -18,6 +19,7 @@ void insertBeginning(Node*& start, Node*& avail, int value)
 void insertPosition(Node*& start, Node*& avail, int value, int position)
 {   if (avail==NULL){
         cout<<"OVERFLOW";
+        return;
     }
     Node* newNode = avail;
     avail = avail->link;
@@ -37,6 +39,7 @@ void insertPosition(Node*& start, Node*& avail, int value, int position)
 void insertEnd(Node*& start, Node*& avail, int value)
 {   if (avail==NULL){
         cout<<"OVERFLOW";
+        return;
     }
     Node* newNode = avail;
     avail = avail->link;
@@ -60,7 +63,7 @@ void deleteBeginning(Node*& start, Node*& avail)
     }
     Node* temp = start;
     start = start->link;
-    temp->link = avail;
+    temp->link = avail;// attaching the node to the front of the avail 
     avail = temp;
 }
 void deletePosition(Node*& start, Node*& avail, int position)
@@ -104,16 +107,18 @@ void deleteEnd(Node*& start, Node*& avail)
         return;
     }
     Node* temp = start;
-    while (temp->link->link != NULL)
+    while (temp->link->link != NULL)//stops at 2nd last node 
     {
         temp = temp->link;
     }
-  
-    Node* deletedNode = temp->link;
+
+    Node* deletedNode = temp->link;//copy the last node to deleted node
     temp->link = NULL;
     deletedNode->link = avail;
     avail = deletedNode;
 }
+
+
 void display(Node* start)
 {   Node* temp = start;
     while (temp != NULL)
@@ -123,6 +128,7 @@ void display(Node* start)
     }
     cout << "NULL" << endl;
 }
+
 int main()
 {
 Node*start=NULL;
@@ -152,7 +158,8 @@ for(int i=0;i<size; i++){
     cin>>value;
     insertEnd(start,avail,value);
 }
-cout<<"Select"<<" "<< "1: INSERTION "<<" "<<"2: DELETION"<<endl;
+do{
+cout<<"Select"<<" "<< "1: INSERTION "<<" "<<"2: DELETION "<<"3: NO CHANGE"<<endl;
 cin>>x;
 switch (x)
 {
@@ -208,6 +215,10 @@ case 2:
     break;
     }
     break;
+case 3:
+   display(start);
 }
+}
+while(x=3);
 return 0;
 }
