@@ -24,6 +24,9 @@ void insertPosition(Node*& start, Node*& avail, int value, int position)
     Node* newNode = avail;
     avail = avail->link;
     newNode->info = value;
+    if (position<1){
+        cout<<"Invalid Position"<<endl;
+    }
     if (position == 1)
     {  newNode->link = start;
         start = newNode;
@@ -72,6 +75,9 @@ void deletePosition(Node*& start, Node*& avail, int position)
     {
         cout << "UNDERFLOW" << endl;
         return;
+    }
+    if (position <1){
+        cout<<"Invalid Position"<<endl;
     }
     if (position == 1)
     {
@@ -219,6 +225,6 @@ case 3:
    display(start);
 }
 }
-while(x=3);
+while(x!=3);
 return 0;
 }
