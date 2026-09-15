@@ -159,6 +159,10 @@ int z;
 int size;
 cout<<"Enter the number of elements of the linked list:";
 cin>>size;
+if (size < 0 || size > 6){
+     cout << "Invalid size. Maximum 6 elements can be inserted." << endl;
+     return 0;
+}
 cout<<"Enter the elements of the linked list:"<<endl;
 for(int i=0;i<size; i++){
     cin>>value;
