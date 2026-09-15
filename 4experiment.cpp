@@ -16,7 +16,7 @@ void insertBeginning(Node*& start, Node*& avail, int value)
     newNode->link = start;
     start = newNode;
 }
-void insertPosition(Node*& start, Node*& avail, int value, int position)
+void insertPosition(Node*& start, Node*& avail, int value, int position,int& size)
 {   if (avail==NULL){
         cout<<"OVERFLOW";
         return;
@@ -24,7 +24,7 @@ void insertPosition(Node*& start, Node*& avail, int value, int position)
     Node* newNode = avail;
     avail = avail->link;
     newNode->info = value;
-    if (position<1){
+    if (position<1|| position > size+1){
         cout<<"Invalid Position"<<endl;
     }
     if (position == 1)
@@ -38,6 +38,7 @@ void insertPosition(Node*& start, Node*& avail, int value, int position)
     }
     newNode->link = temp->link;
     temp->link = newNode;
+    size++;
 }
 void insertEnd(Node*& start, Node*& avail, int value)
 {   if (avail==NULL){
@@ -76,7 +77,7 @@ void deletePosition(Node*& start, Node*& avail, int position)
         cout << "UNDERFLOW" << endl;
         return;
     }
-    if (position <1){
+    if (position <1|| position>size){
         cout<<"Invalid Position"<<endl;
     }
     if (position == 1)
@@ -96,6 +97,8 @@ void deletePosition(Node*& start, Node*& avail, int position)
     temp->link = deletedNode->link;
     deletedNode->link = avail;
     avail = deletedNode;
+    size--;
+
 }
 void deleteEnd(Node*& start, Node*& avail)
 {
