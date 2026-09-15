@@ -200,6 +200,8 @@ case 1:
     cout<<"After insertion"<<endl;
     display(start);
     break;
+    default:
+     cout << "INVALID CHOICE" << endl;
     }
     break;
 case 2:
@@ -223,10 +225,15 @@ case 2:
     cout<<"After deletion"<<endl;
     display(start);
     break;
+    default:
+    cout << "INVALID CHOICE" << endl;
     }
     break;
 case 3:
    display(start);
+   break;
+default: 
+    cout << "INVALID CHOICE" << endl;
 }
 }
 while(x!=3);
