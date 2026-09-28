@@ -1,44 +1,53 @@
 #include <iostream>
-#include <stack>
-#include <string>
 #include <cmath>
 using namespace std;
+int stack[100];
+int top= -1;
+void push(int value){
+    top++;
+    stack[top]=value;
+}
+int pop(){
+    int value= stack[top];
+    top--;
+    return value;
+}
 int main(){
-    string postfix;
-    stack<int> s;
-    cout << "Enter postfix expression: ";
-    cin >> postfix;
-    for (int i = 0; i < postfix.length(); i++){
-        char ch = postfix[i];
-        if (ch >= '0' && ch <= '9'){
-            s.push(ch - '0');
+    char postfix[100];
+    cout<<"Enter postfix expression:";
+    cin>>postfix;
+    for(int i=0;i<postfix[i]!='\0';i++){
+        char ch= postfix[i];
+        if (ch>='0' && ch<='9'){
+            push(ch-'0');
         }
         else{
-            int a = s.top();
-            s.pop();
-            int b = s.top();
-            s.pop();
+            int a=pop();
+            int b=pop();
             int result;
-            switch (ch){
-            case '+':
-                result = b + a;
+            switch(ch){
+                case'+':
+                result=b+a;
                 break;
-            case '-':
-                result = b - a;
+                case'-':
+                result=b-a;
                 break;
-            case '*':
-                result = b * a;
+                case'*':
+                result=b*a;
                 break;
-            case '/':
-                result = b / a;
+                case'/':
+                result=b/a;
                 break;
-            case '^':
-                result = pow(b, a);
+                case'%':
+                result=b%a;
+                break;
+                case'^':
+                result=pow(b,a);
                 break;
             }
-            s.push(result);
+            push(result);
         }
     }
-    cout << "Result = " << s.top() << endl;
+    cout<<"Result:"<<pop();
     return 0;
 }
