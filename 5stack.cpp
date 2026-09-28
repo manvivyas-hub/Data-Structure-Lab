@@ -16,7 +16,7 @@ int main(){
     char postfix[100];
     cout<<"Enter postfix expression:";
     cin>>postfix;
-    for(int i=0;i<postfix[i]!='\0';i++){
+    for(int i=0;postfix[i]!='\0';i++){
         char ch= postfix[i];
         if (ch>='0' && ch<='9'){
             push(ch-'0');
