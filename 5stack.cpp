@@ -4,10 +4,18 @@ using namespace std;
 int stack[100];
 int top= -1;
 void push(int value){
+    if(top==99){
+        cout<<"Stack Overflow";
+        return;
+    }
     top++;
     stack[top]=value;
 }
 int pop(){
+    if (top==-1){
+        cout<<"Stack Underflow";
+        return -1;
+    }
     int value= stack[top];
     top--;
     return value;
