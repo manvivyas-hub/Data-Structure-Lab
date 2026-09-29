@@ -4,7 +4,7 @@
 #include <cmath>
 using namespace std;
 int *stack;
-int top= -1;
+int top=-1;
 bool error=false;
 void push(int size ,int value){
     if(top==size-1){
@@ -40,6 +40,13 @@ int main(){
                 return 0;
             }
         }
+        /*else if ((ch>='A' && ch<='Z')|| (ch>='a'&& ch<='z')){
+            push(size , int(ch));
+            if(error){
+                cout<<"Enter valid postfix expression.";
+                return 0;
+            }
+        }*/
         else{
             int a=pop();
             if(error){
@@ -62,7 +69,13 @@ int main(){
                result=b*a;
                break;
                case '/':
+               if(a==0){
+                cout<<"Division by zero is undefined";
+                return 0;
+               }
+               else{
                result=b/a;
+               }
                break;
                case '%':
                result=b%a;
