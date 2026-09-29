@@ -1,68 +1,86 @@
-//Evaluate a postfix algebraic expression with the help of stack. but in this I have not accounted for the spaces and only considered single digit number
+//Evaluate a postfix algebraic expression with the help of stack. But I have not accounted for the spaces and only considered single digit number.
+//to-do check for alphabets 
 #include <iostream>
 #include <cmath>
-#include <cctype>
 using namespace std;
-void push(int stack[], int &top, int MaxStack, int item){
-    if(top==MaxStack-1){
-        cout<<"OVERFLOW"<<endl;
+int *stack;
+int top= -1;
+bool error=false;
+void push(int size ,int value){
+    if(top==size-1){
+        cout<<"Stack Overflow"<<endl;
+        error=true;
         return;
     }
-    else {
-        top++;
-        stack[top]=item;
-    }
+    top++;
+    stack[top]=value;
 }
-
-int pop(int stack[], int &top){
+int pop(){
     if (top==-1){
-        cout<<"UNDERFLOW"<<endl;
-        return -1;
+        cout<<"Stack Underflow"<<endl;
+        error=true;
+        return 0;
     }
-    else{
-       int item=stack[top];
-       top--;
-       return item;
-    }
+    int value= stack[top];
+    top--;
+    return value;
 }
-
 int main(){
-   char ch;
-   string postfix;
-   int stack[15];
-   int top=-1;
-   cout<<"Enter postfix expression:";
-   getline(cin, postfix);
-   int MaxStack=postfix.length();
-   for(int i=0; i<MaxStack; i++){
-        ch=postfix[i];
-        if(isdigit(ch)){
-            push(stack,top,15,ch- '0');
+    string postfix;
+    cout<<"Enter postfix expression:";
+    cin>>postfix;
+    int size=postfix.length();
+    stack=new int [size];
+    for(int i=0;postfix[i]!='\0';i++){
+        char ch= postfix[i];
+        if (ch>='0' && ch<='9'){
+            push(size , ch-'0');
+            if(error){
+                cout<<"Enter valid postfix expression.";
+                return 0;
+            }
         }
         else{
-           int A=pop(stack,top);
-           int B=pop(stack,top);
-           int result;
-           switch(ch){
-           case ('+'):
-           result= B+A;
-           break;
-           case ('-'):
-           result= B-A;
-           break;
-           case ('*'):
-           result= B*A;
-           break;
-           case ('/'):
-           result= B/A;
-           break;
-           case ('^'):
-           result=pow(B,A);
-           break;
-           }
-           push(stack,top,15,result);
+            int a=pop();
+            if(error){
+                return 0;
+            }
+            int b=pop();
+            if(error){
+                cout<<"Enter valid postfix expression.";
+                return 0;
+            }
+            int result;
+            switch(ch){
+               case '+':
+               result=b+a;
+               break;
+               case '-':
+               result=b-a;
+               break;
+               case '*':
+               result=b*a;
+               break;
+               case '/':
+               result=b/a;
+               break;
+               case '%':
+               result=b%a;
+               break;
+               case '^':
+               result=pow(b,a);
+               break;
+               default:
+               cout<<"Enter valid postfix expression";
+               return 0;
+            }
+            push(size,result);
         }
-   }
-   cout<<"Result:"<<pop(stack,top);
-   return 0;
+    }
+    if (top!=0){
+        cout<<"Enter valid postfix expression"<<endl;
+        return 0;
+    }
+    cout<<"Result:"<<pop();
+    return 0;
 }
